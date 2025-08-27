@@ -8,15 +8,17 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: "latest"
 
+      # Render del sito (usa _quarto.yml e produce _site/)
       - name: Render site
         run: quarto render
 
+      # Deploy su GitHub Pages (usa GITHUB_TOKEN con write)
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
