@@ -2,25 +2,77 @@ name: Quarto Publish
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - uses: quarto-dev/quarto-actions/setup@v2
+      # 1) Installa R
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+
+      # 2) Installa le dipendenze R (CRAN) + system deps (sf/raster ecc.)
+      - name: Install R packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache: true
+          packages: |
+            any::knitr
+            any::rmarkdown
+            any::lubridate
+            any::dplyr
+            any::mgcv
+            any::mgcViz
+            any::ggplot2
+            any::gdata
+            any::MASS
+            any::sf
+            any::rnaturalearth
+            any::rnaturalearthdata
+            any::raster
+            any::tidyr
+            any::maps
+            any::reshape2
+
+      # 3) Installa Quarto (usa una versione stabile, NON "latest")
+      - name: Setup Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: "1.5.57"
 
-      # Render del sito (usa _quarto.yml e produce _site/)
+      # 4) Render del sito (esegue i chunk R)
       - name: Render site
         run: quarto render
 
-      # Deploy su GitHub Pages (usa GITHUB_TOKEN con write)
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      # 5) Prepara Pages e carica l’artefatto _site
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _site
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
