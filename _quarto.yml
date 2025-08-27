@@ -1,0 +1,40 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Litter modelling & risk analysis"
+  search: false
+  navbar:
+    logo: pics/SeaWiseFinal-01.png
+    left:
+      - href: index.qmd
+        text: Home
+      - href: litter_modelling.qmd
+        text: Litter Modelling
+      - href: risk_analysis.qmd
+        text: Risk Analysis
+    right:
+      - text: "SEAwise Website"
+        href: https://seawiseproject.org/
+      - text: "COISPA Github"
+        href: https://github.com/COISPA/litter
+
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4
+    toc-expand: true
+    toc-title: "Index"
+    number-sections: false
+    df-print: paged
+    include-in-header: assets/icons.html
+    theme: default
+    smooth-scroll: true
+    css: styles.css
+
+execute:
+  echo: true
+  warning: false
+  message: false

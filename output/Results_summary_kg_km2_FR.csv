@@ -1,0 +1,4 @@
+"formula";"response";"mod";"dataset";"dev.expl";"AIC"
+"kg_km2 ~ s(x,y,bs = 'ds', m = c(1, 0.5),k=128) + s(ctime, k = 11, bs = 'ds', m = c(1, 0)) + offset(log(swept))";"kg_km2";1;"FR";40.02;2524.52863629111
+"kg_km2 ~ s(x,y,bs = 'ds', m = c(1, 0.5),k=128) + factor(year) + offset(log(swept))";"kg_km2";2;"FR";41.47;2513.90268989236
+"kg_km2 ~ s(x,y,bs = 'ds', m = c(1, 0.5),k=128) + ctime + offset(log(swept))";"kg_km2";3;"FR";39.53;2518.29501040348

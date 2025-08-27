@@ -1,0 +1,72 @@
+
+<!-- start of the script -->
+<img src="pics/SeaWiseFinal-01.png" alt="SEAwise logo" width="90" align="left"/>
+
+
+# Litter modelling & risk analysis 
+Tools to model marine litter distributions from survey data and to perform a risk analysis to estimate impact maps.
+
+##### **M. T. Spedicato, W. Zupa**
+
+<!-- Links -->
+
+<div id="header-links">
+  <a href="https://seawiseproject.org/" target="_blank">
+    <img src="pics/SeaWiseFinal-01.png" width="20"  height="22" style="margin-right:6px; vertical-align:middle;">
+    SEAwise Website
+  </a>
+  <a href="https://github.com/COISPA/litter" target="_blank">
+    <img src="pics/github.svg" width="20" height="22" style="margin-right:6px; vertical-align:middle;">
+    COISPA Github
+  </a>
+</div>
+
+## Introduction
+
+This website presents tools and results for analysing the distribution of marine litter and assessing ecological risks related to fishing activities. The analyses are based on data collected during scientific surveys and use statistical models and biological indicators to describe how litter is distributed across space and time, to estimate the level of hazard for selected species, and to translate this information into exposure risk and impact maps. The overall aim is to provide robust scientific support for marine resource management, combining litter distribution models with multi-species assessments and fleet-specific considerations.
+
+
+## GitHub repository layout
+
+-   **00_data_preparation.r** – prepares raw data in MEDITS format for the litter distributiojn modelling analiysis and for the risk analysis.\
+    The R script:
+
+    -   reads TA (halus) and TL (litter) tables, filters years, converts MEDITS coordinates to decimal degrees with `BioIndex::MEDITS.to.dd()`; computes mean haul coordinates, swept area, and mean depth; builds unique haul IDs and a continuous time variable `ctime` (year + day-of-year/365).
+    -   derives post-classification fields on TL (e.g., SUP, FR and ING catecories), ready for later aggregation. The output path is set to `input/` under the root directory, further used as source folder of data for the analysis.
+
+-   **01_Litter_analysis\_(GAM_analysis).Rmd** – litter spatial distribution modelling (R Markdown style).\
+    The Rmd file:
+
+    -   defines user parameters (years `ys`, `AREA`, litter `category`, response index, bootstrap settings, reference month), paths (`data_dir`, `resdir`), and grid file.
+    -   loads the observation table, constructs `ctime`, loads and expands the prediction grid across years/month, and attaches constant swept area to allow effort-scaled predictions.
+    -   fits three candidate GAM models, using Tweedie families for continuous indices and binomial-logit for presence/absence, with REML and `gamma = 1.4`. Saves model objects, summaries, spline plots, grid predictions and bootstrap time-series (means, 95% CI, CV).
+
+-   **02_Risk_analysis.Rmd** – risk analysis and fleet impact.\
+    The Rmd file:
+
+    -   loads the litter prediction file produced by the modelling step for the chosen category/response and restricts to selected years/area; merges with the grid and aggregates to per-cell means.
+    -   computes species indices (files listed in `species_files`) and a multi-species index `SP` (sum of rescaled species, then rescaled to 0–1).
+    -   derives Hazard classes from litter quantiles (default thresholds at 33rd/66th percentiles), plots a hazard map.
+    -   converts `SP` to percentiles, combines with Hazard to assign exposure risk (Low/Medium/High), and plots the map.
+    -   maps **fleet-specific Impact** by translating Exposure via a gear-impact table (e.g., Low/Medium/High fleets) and plotting per-fleet impact categories.
+
+## Inputs
+
+-   **TA / TL raw tables** (MEDITS format), used in data preparation.
+-   **Prediction grid** CSV (e.g., `grid_0.05_(0-800m)_GSA_csquare.csv`).
+-   **Species rasters/tables** for abundance (e.g., `HKE_GSA18_(abundance)_0.05.csv`, `MUT_...`), specified via `species_files` / `species_names`.
+
+## Dependencies
+
+-   **Data prep:** `BioIndex`, `lubridate`, `dplyr`.
+-   **Modelling:** `mgcv`, `mgcViz`, `MASS`, `dplyr`, `ggplot2`, `sf`, `rnaturalearth`, plus base plotting; Tweedie family used for continuous responses.
+-   **Risk mapping:** `ggplot2`, `raster`, `dplyr`, `tidyr`, `maps`.
+
+Install in R (example):
+
+``` r
+install.packages(c(
+  "BioIndex","lubridate","dplyr","mgcv","mgcViz","MASS",
+  "ggplot2","sf","rnaturalearth","rnaturalearthdata","raster","tidyr","maps"
+))
+```
