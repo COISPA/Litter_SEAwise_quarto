@@ -69,6 +69,7 @@ The analyses are based on data collected during scientific surveys at sea, using
 -   **Species rasters/tables** for abundance (e.g.,
     `HKE_GSA18_(abundance)_0.05.csv`, `MUT_...`), specified via
     `species_files` / `species_names`.
+- templates of input files are included in the *template* folder of the GitHub repository as xlsx files.
 
 ## Dependencies
 

@@ -39,7 +39,7 @@
     "href": "index.html#inputs",
     "title": "Litter modelling & risk analysis",
     "section": "Inputs",
-    "text": "Inputs\n\nTA / TL raw tables (MEDITS-like format), used in data preparation.\nPrediction grid CSV (e.g., grid_0.05_(0-800m)_GSA_csquare.csv).\nSpecies rasters/tables for abundance (e.g., HKE_GSA18_(abundance)_0.05.csv, MUT_...), specified via species_files / species_names."
+    "text": "Inputs\n\nTA / TL raw tables (MEDITS-like format), used in data preparation.\nPrediction grid CSV (e.g., grid_0.05_(0-800m)_GSA_csquare.csv).\nSpecies rasters/tables for abundance (e.g., HKE_GSA18_(abundance)_0.05.csv, MUT_...), specified via species_files / species_names.\ntemplates of input files are included in the template folder of the GitHub repository as xlsx files."
   },
   {
     "objectID": "index.html#dependencies",
