@@ -213,7 +213,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Index</h2>
    
   <ul>
-  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link active" data-scroll-target="#data-preparation">Data preparation</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data preparation</a>
   <ul>
   <li><a href="#litter-data" id="toc-litter-data" class="nav-link" data-scroll-target="#litter-data">Litter data</a>
   <ul class="collapse">
@@ -228,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#hazard-estimation" id="toc-hazard-estimation" class="nav-link" data-scroll-target="#hazard-estimation">Hazard estimation</a></li>
   <li><a href="#risk-classification" id="toc-risk-classification" class="nav-link" data-scroll-target="#risk-classification">Risk classification</a></li>
-  <li><a href="#impact-classification" id="toc-impact-classification" class="nav-link" data-scroll-target="#impact-classification">Impact classification</a></li>
+  <li><a href="#classification-of-impact-by-fishing-gear" id="toc-classification-of-impact-by-fishing-gear" class="nav-link" data-scroll-target="#classification-of-impact-by-fishing-gear">Classification of impact by fishing gear</a></li>
   </ul>
 </nav>
 </nav>
@@ -266,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>Compiled on 29/08/2025, 16:15</code></pre>
+<pre><code>Compiled on 29/08/2025, 19:59</code></pre>
 </div>
 </div>
 <!-- Logo in the title -->
@@ -311,6 +312,11 @@ document.addEventListener("DOMContentLoaded", function(){
 <p><a href="https://seawiseproject.org/" target="_blank"> <img src="pics/SeaWiseFinal-01.png" width="20" height="22" style="margin-right:6px; vertical-align:middle;"> SEAwise Website </a> <a href="https://github.com/COISPA/litter" target="_blank"> <img src="pics/github.svg" width="20" height="22" style="margin-right:6px; vertical-align:middle;"> COISPA Github </a></p>
 </div>
 <!-- start of the script -->
+<section id="overview" class="level1">
+<h1>Overview</h1>
+<p>In this analysis, the spatial distribution of the FR litter was used as a proxy for hazard risk of entanglement, representing the magnitude of potential pressures on the fish species and habitat, while the overlap of FR litter and the distribution of key species (e.g.&nbsp;demersal fish) was used as a proxy of exposure. The assessment of the risk linked to the FR litter was based on the assumption that the proportion of lost gears or lost elements of the fishing gears is proportional to the effort in the study area, that can be useful when clear relationships between the two could not be detected (Spedicato et al., 2023).</p>
+<p><img src="pics/Figure3.jpg" class="img-fluid"></p>
+</section>
 <section id="data-preparation" class="level1">
 <h1>Data preparation</h1>
 <p>The script begins by preparing the working environment. All existing variables are cleared, and the required libraries for data manipulation and visualization are loaded. Two reference tables are then defined:</p>
@@ -319,8 +325,6 @@ document.addEventListener("DOMContentLoaded", function(){
 <li><p>Fleet table (fleet_table): contains the fishing fleets included in the study, specifying their codes, full names, and associated impact levels (Low, Medium, High).</p></li>
 </ul>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean the environment</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>(<span class="at">all =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -353,9 +357,8 @@ document.addEventListener("DOMContentLoaded", function(){
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">fleet_name =</span> <span class="fu">c</span>(<span class="st">"Purse Seiners"</span>, <span class="st">"Trawls"</span>, <span class="st">"Small-Scale Fisheries"</span>),</span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">fleet_impact =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span>)</span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
-<p>After preparing the environment, the script defines a set of global parameters that control the subsequent analysis. These include: - Hazard thresholds (hazard_thrs): values used to classify the level of risk into low, medium, and high categories. - Years of interest (ys): the temporal window considered for the analysis, by default set to the last three years of the available time series. - AREA: the spatial domain of the analysis, which can be restricted to a specific GSA, subregion etc. or left unfiltered (NA).The user must also select the litter category to be analysed. By default, the script processes marine litter data expressed as mass density (kg/km²), although alternative settings can be specified through the variables <em>response</em> and <em>response_name</em>.</p>
+<p>After preparing the environment, the script defines a set of global parameters that control the subsequent analysis. These include: - Hazard thresholds (hazard_thrs): values used to classify the level of risk into low, medium, and high categories. - Years of interest (ys): the temporal window considered for the analysis, by default set to the last three years of the available time series. - AREA: the spatial domain of the analysis, which can be restricted to a specific GSA, subregion etc. or left unfiltered (NA). The user must also select the litter category to be analysed. By default, the script processes marine litter data expressed as mass density (kg/km²), although alternative settings can be specified through the variable <em>response</em> and <em>response_name</em>.</p>
 <p>Finally, the script requires the definition of file paths: - a directory for storing the results of the analysis (resdir), which is automatically created if not already present, - and the directory containing the input data (data_dir).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>hazard_thrs <span class="ot">&lt;-</span> risk_thrs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.33</span>,<span class="fl">0.66</span>)</span>
@@ -482,7 +485,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </section>
 <section id="species-data" class="level2">
 <h2 class="anchored" data-anchor-id="species-data">Species data</h2>
-<p>The script imports species-specific abundance/biomass data (n/km<sup>2</sup>) for selected species (e.g., European hake – HKE, red mullet – MUT), stored in the <em>data_dir</em> folder. For each species, data are filtered by year, averaged across spatial cells, and normalized to a 0–1 range. The number of species included in the analysis can be modified by updating the variables <em>species_files</em> and <em>species_names</em> accordingly. These datasets are then merged with the litter data, and a combined multispecies index (SP) is calculated by summing the normalized abundances and rescaling the result.</p>
+<p>The script imports species-specific abundance/biomass data (n/km<sup>2</sup>) for selected species (e.g., European hake – HKE, red mullet – MUT), stored in the <em>data_dir</em> folder. For each species, data are filtered by year, averaged across spatial cells, and normalized to a 0–1 range. The number of species included in the analysis can be modified by updating the variables <em>species_files</em> and <em>species_names</em> accordingly. These datasets are combined in a multispecies index (SP) by summing the normalized abundances and rescaling the result and then merged with the litter indices.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define species file names and column names dynamically</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>species_files <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"HKE_GSA18_(abundance)_0.05.csv"</span>, <span class="st">"MUT_GSA18_(abundance)_0.05.csv"</span>) <span class="co"># Add more files here  #</span></span>
@@ -501,7 +504,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  species_data[[i]] <span class="ot">&lt;-</span> sp</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge species data with the main data</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge species data with litter data</span></span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (sp_data <span class="cf">in</span> species_data) {</span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">merge</span>(data, sp_data, <span class="at">by =</span> <span class="st">"c_square"</span>, <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -659,23 +662,32 @@ document.addEventListener("DOMContentLoaded", function(){
 </section>
 <section id="risk-classification" class="level1">
 <h1>Risk classification</h1>
-<p>This section integrates hazard levels with multispecies abundance to assess overall exposure risk. Percentile ranks of the multispecies index (SP) are combined with hazard classes (0 = Low, 1 = Medium, 2 = High) to assign each spatial cell to one of three exposure categories:</p>
-<p><u>Low</u>:</p>
-<ul>
-<li><p>Hazard = Low (0), regardless of species abundance;</p></li>
-<li><p>Hazard = Medium (1) with SP ≤ 66<sup>th</sup> percentile;</p></li>
-<li><p>Hazard = High (2) with SP ≤ 33<sup>rd</sup> percentile.</p></li>
-</ul>
-<p><u>Medium</u>:</p>
-<ul>
-<li><p>Hazard = Medium (1) with SP &gt; 66<sup>th</sup> percentile;</p></li>
-<li><p>Hazard = High (2) with 33<sup>rd</sup> &lt; SP ≤ 66<sup>th</sup> percentile.</p></li>
-</ul>
-<p><u>High</u>:</p>
-<ul>
-<li>Hazard = High (2) with SP &gt; 66<sup>th</sup> percentile.</li>
-</ul>
-<p>The resulting classification is visualized on a risk exposure map, highlighting areas where high litter hazard overlaps with higher biological importance.</p>
+<p>Risk classification integrates hazard levels with multispecies abundance to assess overall exposure risk. Percentile ranks of the multispecies index (SP) are combined with hazard classes (0 = Low, 1 = Medium, 2 = High) to assign each spatial cell to one of three exposure categories:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 72%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>Low risk</td>
+<td><p>• Hazard = Low (0), regardless of species abundance <br></p>
+<p>• Hazard = Medium (1) with SP ≤ 66th percentile <br></p>
+<p>• Hazard = High (2) with SP ≤ 33rd percentile</p></td>
+</tr>
+<tr class="even">
+<td>Medium risk</td>
+<td><p>• Hazard = Medium (1) with SP &gt; 66th percentile <br></p>
+<p>• Hazard = High (2) with 33rd &lt; SP ≤ 66th percentile</p></td>
+</tr>
+<tr class="odd">
+<td>High risk</td>
+<td>• Hazard = High (2) with SP &gt; 66th percentile</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>The resulting classification is visualized as an overall risk exposure map, highlighting areas where high litter hazard overlaps with higher biological importance.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -686,9 +698,9 @@ document.addEventListener("DOMContentLoaded", function(){
 </div>
 </div>
 </section>
-<section id="impact-classification" class="level1">
-<h1>Impact classification</h1>
-<p>In the final step, the script translates exposure levels into fleet-specific impact maps. For each fishing fleet, the assigned impact level (Low, Medium, High) is combined with the exposure categories to produce a spatial classification, as decribed in the table below.</p>
+<section id="classification-of-impact-by-fishing-gear" class="level1">
+<h1>Classification of impact by fishing gear</h1>
+<p>In the final step, the script translates exposure levels into fleet-specific impact maps. For each fishing fleet, the impact level (Low, Medium, High) is combined with the exposure categories to produce a spatial classification, as described in the table below.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -698,7 +710,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </div>
 </div>
 </div>
-<p>The resulting impact values are visualized in dedicated maps for each fleet, highlighting spatial patterns of potential fleet-related impacts.</p>
+<p>The resulting impact values are visualized by fleet, highlighting spatial patterns of potential fleet-related impacts.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
