@@ -75,6 +75,9 @@ The script begins by preparing the working environment. All existing variables a
 -   Fleet table (fleet_table): contains the fishing fleets included in the study, specifying their codes, full names, and associated impact levels (Low, Medium, High).
 
 ```{r, warning=FALSE, message=FALSE}
+#| code-fold: true
+#| echo: true
+
 # Clean the environment
 rm(list = ls(all = TRUE))
 

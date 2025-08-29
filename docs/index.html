@@ -210,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#litter-modelling-risk-analysis" id="toc-litter-modelling-risk-analysis" class="nav-link active" data-scroll-target="#litter-modelling-risk-analysis">Litter modelling &amp; risk analysis</a>
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#github-repository-layout" id="toc-github-repository-layout" class="nav-link" data-scroll-target="#github-repository-layout">GitHub repository layout</a></li>
   <li><a href="#inputs" id="toc-inputs" class="nav-link" data-scroll-target="#inputs">Inputs</a></li>
   <li><a href="#dependencies" id="toc-dependencies" class="nav-link" data-scroll-target="#dependencies">Dependencies</a></li>
@@ -232,7 +232,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="pics/SeaWiseFinal-01.png" alt="SEAwise logo" width="90" align="left"></p>
 <section id="litter-modelling-risk-analysis" class="level1">
 <h1>Litter modelling &amp; risk analysis</h1>
-<p>Tools to model marine litter distributions from survey data and to perform a risk analysis to estimate impact maps.</p>
+<p>Tools to model marine macro-litter trends of abundance and distributions from trawl survey data and to perform a risk analysis with impact maps.</p>
 <section id="m.-t.-spedicato-w.-zupa" class="level5">
 <h5 class="anchored" data-anchor-id="m.-t.-spedicato-w.-zupa"><strong>M. T. Spedicato, W. Zupa</strong></h5>
 <!-- Links -->
@@ -240,31 +240,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://seawiseproject.org/" target="_blank"> <img src="pics/SeaWiseFinal-01.png" width="20" height="22" style="margin-right:6px; vertical-align:middle;"> SEAwise Website </a> <a href="https://github.com/COISPA/litter" target="_blank"> <img src="pics/github.svg" width="20" height="22" style="margin-right:6px; vertical-align:middle;"> COISPA Github </a></p>
 </div>
 </section>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This website presents tools and results for analysing the distribution of marine litter and assessing ecological risks related to fishing activities. The analyses are based on data collected during scientific surveys and use statistical models and biological indicators to describe how litter is distributed across space and time, to estimate the level of hazard for selected species, and to translate this information into exposure risk and impact maps. The overall aim is to provide robust scientific support for marine resource management, combining litter distribution models with multi-species assessments and fleet-specific considerations.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This analysis presents tools and results for analysing the temporal trends of mass and number of items fishing-related (FR) litter on the seafloor, spatial distribution with hot spots and pressure induced on key species groups, by FR litter posing risk of entanglement and ingestion.</p>
+<p><img src="pics/Figure1.jpg" class="img-fluid"></p>
+<p>The analyses are based on data collected during scientific surveys at sea, using statistical models and biological indicators.</p>
+<p><img src="pics/Immagine1.png" class="img-fluid"></p>
 </section>
 <section id="github-repository-layout" class="level2">
 <h2 class="anchored" data-anchor-id="github-repository-layout">GitHub repository layout</h2>
 <ul>
-<li><p><strong>00_data_preparation.r</strong> – prepares raw data in MEDITS format for the litter distributiojn modelling analiysis and for the risk analysis.<br>
+<li><p><strong>00_data_preparation.r</strong> – prepares raw data in MEDITS-like format for the litter distribution modelling and for the risk analysis.<br>
 The R script:</p>
 <ul>
-<li>reads TA (halus) and TL (litter) tables, filters years, converts MEDITS coordinates to decimal degrees with <code>BioIndex::MEDITS.to.dd()</code>; computes mean haul coordinates, swept area, and mean depth; builds unique haul IDs and a continuous time variable <code>ctime</code> (year + day-of-year/365).</li>
-<li>derives post-classification fields on TL (e.g., SUP, FR and ING catecories), ready for later aggregation. The output path is set to <code>input/</code> under the root directory, further used as source folder of data for the analysis.</li>
+<li>reads TA (halus) and TL (litter) tables, filters years, converts coordinates to decimal degrees with BioIndex::MEDITS.to.dd(); computes mean haul coordinates, swept area, and mean depth; builds unique haul ID and a continuous time variable ctime (year + day-of-year/365).</li>
+<li>derives post-classification fields on TL (e.g., SUP, FR, ENT and ING catecories), ready for later aggregation. The output path is set to <code>input/</code> under the root directory, further used as source folder of data for the analysis.</li>
 </ul></li>
-<li><p><strong>01_Litter_analysis_(GAM_analysis).Rmd</strong> – litter spatial distribution modelling (R Markdown style).<br>
+<li><p><strong>01_Litter_analysis_(GAM_analysis).Rmd</strong> – litter spatial distribution modelling (R Markdown file reported in the GitHub repository).<br>
 The Rmd file:</p>
 <ul>
 <li>defines user parameters (years <code>ys</code>, <code>AREA</code>, litter <code>category</code>, response index, bootstrap settings, reference month), paths (<code>data_dir</code>, <code>resdir</code>), and grid file.</li>
 <li>loads the observation table, constructs <code>ctime</code>, loads and expands the prediction grid across years/month, and attaches constant swept area to allow effort-scaled predictions.</li>
-<li>fits three candidate GAM models, using Tweedie families for continuous indices and binomial-logit for presence/absence, with REML and <code>gamma = 1.4</code>. Saves model objects, summaries, spline plots, grid predictions and bootstrap time-series (means, 95% CI, CV).</li>
+<li>fits three candidate GAM models (see Modelling Section), using Tweedie families for continuous indices and binomial-logit for presence/absence, with REML and gamma = 1.4. Saves model objects, summaries, spline plots, grid predictions and bootstrap time-series (means, 95% CI, CV).</li>
 </ul></li>
-<li><p><strong>02_Risk_analysis.Rmd</strong> – risk analysis and fleet impact.<br>
+<li><p><strong>02_Risk_analysis.Rmd</strong> – risk analysis and fleet impact (R Markdown file reported in the GitHub repository).<br>
 The Rmd file:</p>
 <ul>
 <li>loads the litter prediction file produced by the modelling step for the chosen category/response and restricts to selected years/area; merges with the grid and aggregates to per-cell means.</li>
-<li>computes species indices (files listed in <code>species_files</code>) and a multi-species index <code>SP</code> (sum of rescaled species, then rescaled to 0–1).</li>
+<li>computes species indices (files listed in species_files) and a multi-species index SP (sum of rescaled species, standardised to 0–1).</li>
 <li>derives Hazard classes from litter quantiles (default thresholds at 33rd/66th percentiles), plots a hazard map.</li>
 <li>converts <code>SP</code> to percentiles, combines with Hazard to assign exposure risk (Low/Medium/High), and plots the map.</li>
 <li>maps <strong>fleet-specific Impact</strong> by translating Exposure via a gear-impact table (e.g., Low/Medium/High fleets) and plotting per-fleet impact categories.</li>
@@ -274,7 +277,7 @@ The Rmd file:</p>
 <section id="inputs" class="level2">
 <h2 class="anchored" data-anchor-id="inputs">Inputs</h2>
 <ul>
-<li><strong>TA / TL raw tables</strong> (MEDITS format), used in data preparation.</li>
+<li><strong>TA / TL raw tables</strong> (MEDITS-like format), used in data preparation.</li>
 <li><strong>Prediction grid</strong> CSV (e.g., <code>grid_0.05_(0-800m)_GSA_csquare.csv</code>).</li>
 <li><strong>Species rasters/tables</strong> for abundance (e.g., <code>HKE_GSA18_(abundance)_0.05.csv</code>, <code>MUT_...</code>), specified via <code>species_files</code> / <code>species_names</code>.</li>
 </ul>

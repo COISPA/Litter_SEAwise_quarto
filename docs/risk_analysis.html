@@ -266,7 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>Compiled on 27/08/2025, 14:26</code></pre>
+<pre><code>Compiled on 29/08/2025, 13:37</code></pre>
 </div>
 </div>
 <!-- Logo in the title -->
@@ -319,6 +319,8 @@ document.addEventListener("DOMContentLoaded", function(){
 <li><p>Fleet table (fleet_table): contains the fishing fleets included in the study, specifying their codes, full names, and associated impact levels (Low, Medium, High).</p></li>
 </ul>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean the environment</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>(<span class="at">all =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -351,6 +353,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">fleet_name =</span> <span class="fu">c</span>(<span class="st">"Purse Seiners"</span>, <span class="st">"Trawls"</span>, <span class="st">"Small-Scale Fisheries"</span>),</span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">fleet_impact =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span>)</span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <p>After preparing the environment, the script defines a set of global parameters that control the subsequent analysis. These include: - Hazard thresholds (hazard_thrs): values used to classify the level of risk into low, medium, and high categories. - Years of interest (ys): the temporal window considered for the analysis, by default set to the last three years of the available time series. - AREA: the spatial domain of the analysis, which can be restricted to a specific GSA, subregion etc. or left unfiltered (NA).The user must also select the litter category to be analysed. By default, the script processes marine litter data expressed as mass density (kg/km²), although alternative settings can be specified through the variables <em>response</em> and <em>response_name</em>.</p>
 <p>Finally, the script requires the definition of file paths: - a directory for storing the results of the analysis (resdir), which is automatically created if not already present, - and the directory containing the input data (data_dir).</p>

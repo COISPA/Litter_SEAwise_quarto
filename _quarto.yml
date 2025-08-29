@@ -28,6 +28,7 @@ format:
     toc-expand: true
     toc-title: "Index"
     number-sections: false
+    code-fold: false
     df-print: paged
     include-in-header: assets/icons.html
     theme: default

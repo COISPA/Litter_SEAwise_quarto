@@ -1,8 +1,9 @@
 ---
 title: "Modelling analysis on Litter data"
 author: "M. T. Spedicato, W. Zupa"
-# La data dinamica la stampiamo nel corpo con R (vedi subito sotto)
-# Il resto delle opzioni è in _quarto.yml
+editor: 
+  markdown: 
+    wrap: sentence
 ---
 
 ```{r, echo=FALSE}
@@ -12,6 +13,7 @@ cat(sprintf("Compiled on %s\n\n", format(Sys.time(), '%d/%m/%Y, %H:%M')))
 
 <!-- Logo in the title -->
 
+```{=html}
 <style>
 /* Make the title line a flex row with the logo on the left */
 .title-with-logo {
@@ -26,7 +28,9 @@ cat(sprintf("Compiled on %s\n\n", format(Sys.time(), '%d/%m/%Y, %H:%M')))
   height: auto;
 }
 </style>
+```
 
+```{=html}
 <script>
 // Wrap the H1.title with a container and prepend the logo to its left
 document.addEventListener("DOMContentLoaded", function(){
@@ -49,26 +53,20 @@ document.addEventListener("DOMContentLoaded", function(){
   wrap.appendChild(h1);
 });
 </script>
+```
 
 <!-- Links -->
 
-<div id="header-links">
-  <a href="https://seawiseproject.org/" target="_blank">
-    <img src="pics/SeaWiseFinal-01.png" width="20"  height="22" style="margin-right:6px; vertical-align:middle;">
-    SEAwise Website
-  </a>
-  <a href="https://github.com/COISPA/litter" target="_blank">
-    <img src="pics/github.svg" width="20" height="22" style="margin-right:6px; vertical-align:middle;">
-    COISPA Github
-  </a>
-</div>
+::: {#header-links}
+<a href="https://seawiseproject.org/" target="_blank"> <img src="pics/SeaWiseFinal-01.png" width="20" height="22" style="margin-right:6px; vertical-align:middle;"/> SEAwise Website </a> <a href="https://github.com/COISPA/litter" target="_blank"> <img src="pics/github.svg" width="20" height="22" style="margin-right:6px; vertical-align:middle;"/> COISPA Github </a>
+:::
 
 <!-- start of the script -->
 
+# Modelling analysis
 
-# Introduction
+![](pics/Figure2.jpg)
 
-This R Markdown template provides a flexible, parameter‑driven workflow for modelling the spatial and temporal distribution of marine litter recorded during scientific surveys.
 By editing only the small set of parameters that appears at the beginning of the script, such as the study period, the geographical area covered by the analysis, the litter category to be analysed, the response metric and so on, the same code can be rendered for any new case study without further modifications.
 The template expects two external csv files.
 The first file contains the observations: one row for every haul, with the haul date, geographical coordinates in decimal degrees, depth, the number and weight of litter items, and either the swept area or the tow duration so that the raw counts can be converted into density indices.
@@ -832,7 +830,8 @@ if (fm[m, "dev.expl"] > 0) {
 
 # Analysis on Model 3
 
-The workflow shown for Model 1 and 2 is executed again—line for line for Model 3 (spatial smooth + linear trend). At each step the master tables *fm* and *ts_tab* are updated so that, once all three loops finish, the user have a complete and directly comparable set of outputs for every candidate model.
+The workflow shown for Model 1 and 2 is executed again—line for line for Model 3 (spatial smooth + linear trend).
+At each step the master tables *fm* and *ts_tab* are updated so that, once all three loops finish, the user have a complete and directly comparable set of outputs for every candidate model.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 m = 3 # to select model 3
@@ -1102,7 +1101,6 @@ if (fm[m, "dev.expl"] > 0) {
 } # if dev.exp > 0
 ```
 
-
 # Merging plots and results
 
 At the very end of the script everything comes together.
@@ -1171,4 +1169,3 @@ ts_tab$area = AREA
 
 write.table(ts_tab, file.path(resdir, paste0("_Time_series_",response,"_",datasets,".csv")), sep = ";", row.names = FALSE)
 ```
-
