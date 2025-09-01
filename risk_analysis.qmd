@@ -58,12 +58,12 @@ document.addEventListener("DOMContentLoaded", function(){
 <!-- Links -->
 
 ::: {#header-links}
-<a href="https://github.com/ices-tools-dev/SEAwise" target="_blank">
-![](pics/github.svg){width="20" height="22"
-style="margin-right:6px; vertical-align:middle;"} SEAwise Github </a>
-<a href="https://github.com/COISPA/litter" target="_blank">
-<img src="pics/github.svg" width="20" height="22" style="margin-right:6px; vertical-align:middle;"/>
-COISPA Github </a>
+<a href="https://www.youtube.com/@seawiseproject5092" target="_blank">
+![](pics/youtube.png){width="20" height="22"
+style="margin-right:6px; vertical-align:middle;"} SEAwise Youtube </a>
+<a href="https://seawiseproject.org/" target="_blank">
+<img src="pics/SeaWiseFinal-01.png" width="20" height="22" style="margin-right:6px; vertical-align:middle;"/>
+SEAwise </a>
 :::
 
 <!-- start of the script -->
@@ -498,23 +498,23 @@ to assess overall exposure risk. Percentile ranks of the multispecies
 index (SP) are combined with hazard classes (0 = Low, 1 = Medium, 2 =
 High) to assign each spatial cell to one of three exposure categories:
 
-+--------------+---------------------------------------------------+
-| Low risk     | • Hazard = Low (0), regardless of species         |
-|              | abundance <br>                                    |
-|              |                                                   |
-|              | • Hazard = Medium (1) with SP ≤ 66th percentile   |
-|              | <br>                                              |
-|              |                                                   |
-|              | • Hazard = High (2) with SP ≤ 33rd percentile     |
-+--------------+---------------------------------------------------+
-| Medium risk  | • Hazard = Medium (1) with SP \> 66th percentile  |
-|              | <br>                                              |
-|              |                                                   |
-|              | • Hazard = High (2) with 33rd \< SP ≤ 66th        |
-|              | percentile                                        |
-+--------------+---------------------------------------------------+
-| High risk    | • Hazard = High (2) with SP \> 66th percentile    |
-+--------------+---------------------------------------------------+
++---------------+-------------------------------------------------+
+| Low risk      | • Hazard = Low (0), regardless of species       |
+|               | abundance <br>                                  |
+|               |                                                 |
+|               | • Hazard = Medium (1) with SP ≤ 66th percentile |
+|               | <br>                                            |
+|               |                                                 |
+|               | • Hazard = High (2) with SP ≤ 33rd percentile   |
++---------------+-------------------------------------------------+
+| Medium risk   | • Hazard = Medium (1) with SP \> 66th           |
+|               | percentile <br>                                 |
+|               |                                                 |
+|               | • Hazard = High (2) with 33rd \< SP ≤ 66th      |
+|               | percentile                                      |
++---------------+-------------------------------------------------+
+| High risk     | • Hazard = High (2) with SP \> 66th percentile  |
++---------------+-------------------------------------------------+
 
 <br>
 
@@ -682,3 +682,9 @@ for (i in seq_len(nrow(fleet_table))) {
 }
 
 ```
+
+
+------------------------------------------------------------------------
+
+*Accompanying worksheets and guides can be found on the SEAwise website
+under the online course page.*

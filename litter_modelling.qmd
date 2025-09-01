@@ -58,12 +58,12 @@ document.addEventListener("DOMContentLoaded", function(){
 <!-- Links -->
 
 ::: {#header-links}
-<a href="https://github.com/ices-tools-dev/SEAwise" target="_blank">
-![](pics/github.svg){width="20" height="22"
-style="margin-right:6px; vertical-align:middle;"} SEAwise Github </a>
-<a href="https://github.com/COISPA/litter" target="_blank">
-<img src="pics/github.svg" width="20" height="22" style="margin-right:6px; vertical-align:middle;"/>
-COISPA Github </a>
+<a href="https://www.youtube.com/@seawiseproject5092" target="_blank">
+![](pics/youtube.png){width="20" height="22"
+style="margin-right:6px; vertical-align:middle;"} SEAwise Youtube </a>
+<a href="https://seawiseproject.org/" target="_blank">
+<img src="pics/SeaWiseFinal-01.png" width="20" height="22" style="margin-right:6px; vertical-align:middle;"/>
+SEAwise </a>
 :::
 
 <!-- start of the script -->
