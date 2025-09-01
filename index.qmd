@@ -21,7 +21,7 @@ from trawl survey data and to perform a risk analysis with impact maps.
 <a href="https://github.com/ices-tools-dev/SEAwise" target="_blank">
 ![](pics/github.svg){width="20" height="22"
 style="margin-right:6px; vertical-align:middle;"} SEAwise Github </a>
-<a href="https://github.com/COISPA/Litter_SEAwise_quarto" target="_blank">
+<a href="https://github.com/COISPA/litter" target="_blank">
 <img src="pics/github.svg" width="20" height="22" style="margin-right:6px; vertical-align:middle;"/>
 COISPA Github </a>
 :::

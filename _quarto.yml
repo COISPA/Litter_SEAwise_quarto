@@ -15,8 +15,8 @@ website:
       - href: risk_analysis.qmd
         text: Risk Analysis
     right:
-      - text: "SEAwise Website"
-        href: https://seawiseproject.org/
+      - text: "SEAwise GitHub"
+        href: https://github.com/ices-tools-dev/SEAwise
       - text: "COISPA Github"
         href: https://github.com/COISPA/litter
 
@@ -28,7 +28,7 @@ format:
     toc-expand: true
     toc-title: "Index"
     number-sections: false
-    code-fold: true
+    code-fold: false
     df-print: paged
     include-in-header: assets/icons.html
     theme: default
