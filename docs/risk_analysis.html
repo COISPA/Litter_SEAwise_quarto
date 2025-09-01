@@ -267,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>Compiled on 01/09/2025, 12:07</code></pre>
+<pre><code>Compiled on 01/09/2025, 12:17</code></pre>
 </div>
 </div>
 <!-- Logo in the title -->
@@ -325,8 +325,6 @@ document.addEventListener("DOMContentLoaded", function(){
 <li><p>Fleet table (fleet_table): contains the fishing fleets included in the study, specifying their codes, full names, and associated impact levels (Low, Medium, High).</p></li>
 </ul>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean the environment</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>(<span class="at">all =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -359,13 +357,10 @@ document.addEventListener("DOMContentLoaded", function(){
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">fleet_name =</span> <span class="fu">c</span>(<span class="st">"Purse Seiners"</span>, <span class="st">"Trawls"</span>, <span class="st">"Small-Scale Fisheries"</span>),</span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">fleet_impact =</span> <span class="fu">c</span>(<span class="st">"Low"</span>, <span class="st">"Medium"</span>, <span class="st">"High"</span>)</span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <p>After preparing the environment, the script defines a set of global parameters that control the subsequent analysis. These include: - Hazard thresholds (hazard_thrs): values used to classify the level of risk into low, medium, and high categories. - Years of interest (ys): the temporal window considered for the analysis, by default set to the last three years of the available time series. - AREA: the spatial domain of the analysis, which can be restricted to a specific GSA, subregion etc. or left unfiltered (NA). The user must also select the litter category to be analysed. By default, the script processes marine litter data expressed as mass density (kg/km²), although alternative settings can be specified through the variable <em>response</em> and <em>response_name</em>.</p>
 <p>Finally, the script requires the definition of file paths: - a directory for storing the results of the analysis (resdir), which is automatically created if not already present, - and the directory containing the input data (data_dir).</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>hazard_thrs <span class="ot">&lt;-</span> risk_thrs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.33</span>,<span class="fl">0.66</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial parameters (modifiable by the user)</span></span>
@@ -383,7 +378,6 @@ document.addEventListener("DOMContentLoaded", function(){
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># set directory with data</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>data_dir <span class="ot">&lt;-</span> <span class="fu">file.path</span>(wd, <span class="st">"input"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <section id="litter-data" class="level2">
 <h2 class="anchored" data-anchor-id="litter-data">Litter data</h2>
@@ -391,22 +385,17 @@ document.addEventListener("DOMContentLoaded", function(){
 <h3 class="anchored" data-anchor-id="load-litter-data">Load litter data</h3>
 <p>The script loads the litter dataset corresponding to the selected category and response variable. The data are filtered by the chosen years, and a unique cell identifier is created by combining the c-square code with the year.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>litter_file <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"Litter_"</span>,litter_category,<span class="st">"_"</span>,response,<span class="st">"_1.csv"</span>) <span class="co"># Litter data file</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>litter <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(resdir, litter_file), <span class="at">sep =</span> <span class="st">";"</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>cells <span class="ot">&lt;-</span> <span class="fu">unique</span>(litter<span class="sc">$</span>id)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>litter <span class="ot">&lt;-</span> litter[litter<span class="sc">$</span>year <span class="sc">%in%</span> ys, ]</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>litter<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">paste</span>(litter<span class="sc">$</span>c_square, litter<span class="sc">$</span>year, <span class="at">sep =</span> <span class="st">"_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="grid-preparation" class="level3">
 <h3 class="anchored" data-anchor-id="grid-preparation">Grid preparation</h3>
 <p>The grid data are imported and, if specified, filtered by the selected <em>AREA</em>. The grid is then expanded to cover all years of interest, and each cell is assigned a unique identifier (c_square + year). Litter predictions are merged with the grid, missing values are set to zero, and the data are aggregated by spatial cell. The resulting dataset contains mean litter values per cell, stored under the selected litter category.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load grid data</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">file.path</span>(data_dir, <span class="st">"grid_0.05_(0-800m)_GSA_csquare.csv"</span>), <span class="at">sep =</span> <span class="st">";"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(grid) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"c_square"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"AREA"</span>, <span class="st">"depth"</span>, <span class="st">"strata"</span>)</span>
@@ -441,15 +430,12 @@ document.addEventListener("DOMContentLoaded", function(){
 <span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename the last column to the litter category</span></span>
 <span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(data) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"c_square"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"AREA"</span>, <span class="st">"depth"</span>, <span class="st">"strata"</span>, litter_category)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 </section>
 <section id="plot-of-litter-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="plot-of-litter-distribution">Plot of litter distribution</h3>
 <p>The script visualizes the spatial distribution of fishery-related litter. Litter values are normalized to a 0–1 scale, and distribution maps are produced. The plots display relative abundance or mass, depending on the selected response variable.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot effort</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>xmin <span class="ot">&lt;-</span> <span class="fu">min</span>(data<span class="sc">$</span>x)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>xmax <span class="ot">&lt;-</span> <span class="fu">max</span>(data<span class="sc">$</span>x)</span>
@@ -487,7 +473,6 @@ document.addEventListener("DOMContentLoaded", function(){
 <span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">"Latitude"</span>) <span class="sc">+</span></span>
 <span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">fill =</span> <span class="fu">paste</span>(<span class="st">"Relative"</span>,type, <span class="at">sep =</span> <span class="st">" "</span>)) <span class="sc">+</span></span>
 <span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste0</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -502,8 +487,6 @@ document.addEventListener("DOMContentLoaded", function(){
 <h2 class="anchored" data-anchor-id="species-data">Species data</h2>
 <p>The script imports species-specific abundance/biomass data (n/km<sup>2</sup>) for selected species (e.g., European hake – HKE, red mullet – MUT), stored in the <em>data_dir</em> folder. For each species, data are filtered by year, averaged across spatial cells, and normalized to a 0–1 range. The number of species included in the analysis can be modified by updating the variables <em>species_files</em> and <em>species_names</em> accordingly. These datasets are combined in a multispecies index (SP) by summing the normalized abundances and rescaling the result and then merged with the litter indices.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define species file names and column names dynamically</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>species_files <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"HKE_GSA18_(abundance)_0.05.csv"</span>, <span class="st">"MUT_GSA18_(abundance)_0.05.csv"</span>) <span class="co"># Add more files here  #</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>species_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"HKE"</span>, <span class="st">"MUT"</span>) <span class="co"># Add corresponding species names here  </span></span>
@@ -534,14 +517,11 @@ document.addEventListener("DOMContentLoaded", function(){
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Final data ready for analysis</span></span>
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>SP <span class="ot">&lt;-</span> data<span class="sc">$</span>SP <span class="sc">/</span> <span class="fu">max</span>(data<span class="sc">$</span>SP, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
 <section id="plot-species-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="plot-species-distribution">Plot species distribution</h3>
 <p>This step visualizes the spatial distribution of each species included in the analysis, as well as the aggregated multispecies index. For each species, relative abundance maps are generated using a gradient scale, while the multispecies cumulative index is plotted with thresholds highlighting different quantile levels. These maps provide a spatial overview of single-species patterns and cumulative patterns too.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define custom titles for each column</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>title_mapping <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"HKE"</span> <span class="ot">=</span> <span class="st">"European hake (HKE)"</span>,</span>
@@ -609,7 +589,6 @@ document.addEventListener("DOMContentLoaded", function(){
 <span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(plot_title) <span class="co"># Use custom title</span></span>
 <span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(p)</span>
 <span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -631,8 +610,6 @@ document.addEventListener("DOMContentLoaded", function(){
 </figure>
 </div>
 </div>
-<details class="code-fold">
-<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim =</span> xl, <span class="at">ylim =</span> yl, <span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">data =</span> data[<span class="sc">!</span><span class="fu">is.na</span>(data[[<span class="st">"SPnorm"</span>]]), ], <span class="co"># Exclude NA values for the column</span></span>
@@ -659,7 +636,6 @@ document.addEventListener("DOMContentLoaded", function(){
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Latitude"</span>) <span class="sc">+</span></span>
 <span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="fu">paste0</span>(<span class="st">"Multispecies cumulative abundance"</span>)) <span class="co"># Dynamically set title based on column name</span></span>
 <span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
