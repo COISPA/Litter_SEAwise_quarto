@@ -18,7 +18,7 @@ website:
       - text: "SEAwise GitHub"
         href: https://github.com/ices-tools-dev/SEAwise
       - text: "COISPA Github"
-        href: https://github.com/COISPA/litter
+        href: https://github.com/COISPA/Litter_SEAwise_quarto
 
 format:
   html:
