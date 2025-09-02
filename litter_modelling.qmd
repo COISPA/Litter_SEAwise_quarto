@@ -58,12 +58,7 @@ document.addEventListener("DOMContentLoaded", function(){
 <!-- Links -->
 
 ::: {#header-links}
-<a href="https://www.youtube.com/@seawiseproject5092" target="_blank">
-![](pics/youtube.png){width="20" height="22"
-style="margin-right:6px; vertical-align:middle;"} SEAwise Youtube </a>
-<a href="https://seawiseproject.org/" target="_blank">
-<img src="pics/SeaWiseFinal-01.png" width="20" height="22" style="margin-right:6px; vertical-align:middle;"/>
-SEAwise </a>
+<a href="https://www.youtube.com/@seawiseproject5092" target="_blank"> ![](pics/youtube.png){width="20" height="22" style="margin-right:6px; vertical-align:middle;"} SEAwise Youtube </a> <a href="https://seawiseproject.org/" target="_blank"> <img src="pics/SeaWiseFinal-01.png" width="20" height="22" style="margin-right:6px; vertical-align:middle;"/> SEAwise </a>
 :::
 
 <!-- start of the script -->
@@ -74,7 +69,7 @@ The script can be adapted to any case study by changing a few parameters (period
 It requires two external .csv files: one with haul observations (date, coordinates, depth, litter counts/weights, effort data) and one prediction grid with regularly spaced points (cell ID, centroid, depth, stratification).
 The grid resolution in the example is 0.05° (\~5 km), but users can replace the files as needed.
 Before the statistical analysis begins the script derives a set of density indices (as items or kilograms per square kilometre and per hour) together with a binary presence–absence flag.
-For the chosen response variable the code fits three candidate Generalised Additive Models with the mgcv package.
+For the chosen response variable the code fits three candidate Generalised Additive Models (GAMs) with the *mgcv* package.
 
 ![](pics/Figure2.jpg)
 
@@ -108,7 +103,7 @@ cats <- data.frame(
                "Ingestion fish and birds",
                "Ingestion sharks and cetaceans", 
                "Entanglement", 
-               "Fishing related",
+               "fisheries related",
                "SUP",
                "Plastic",
                "Rubber",
@@ -314,7 +309,12 @@ fm[, "dataset"] <- dname
 
 ## Model fitting
 
-This first fitting step takes the formula of Model 1  and feeds it to *mgcv::gam*. Before the call, a results table called *ts_tab* is allocated: one row per survey year and separate columns ready to store the three models’ yearly means, confidence limits and coefficients of variation. The object *m* is set to 1 so the rest of the script knows which row of the formula matrix to pull from. The conditional block chooses the appropriate likelihood according to the response variable the user selected earlier. Presence–absence (pa) triggers a *binomial logit* specification; any of the continuous density indices triggers the *Tweedie (tw())* family. In every case the model is estimated by REML and the smoothing penalty is inflated with gamma = 1.4, helping to prevent over-fitting when data are sparse.
+This first fitting step takes the formula of Model 1 and feeds it to *mgcv::gam*.
+Before the call, a results table named *ts_tab* is allocated: one row per survey year and separate columns ready to store the three models’ yearly means, confidence limits and coefficients of variation.
+The object *m* is set to 1 so the rest of the script knows which row of the formula matrix to pull from.
+The conditional block chooses the appropriate likelihood according to the response variable the user selected earlier.
+Presence–absence (pa) triggers a *binomial logit* specification; any of the continuous density indices triggers the *Tweedie (tw())* family.
+In every case the model is estimated by REML and the smoothing penalty is inflated with gamma = 1.4, helping to prevent over-fitting when data are sparse.
 
 ```{r}
 ts_tab <- data.frame(matrix(ncol = 13, nrow = length(ys)))
@@ -367,7 +367,12 @@ m=1  # to select model 1
 
 ## Model diagnostics
 
-This section captures a complete diagnostic picture of the model immediately after it has been fitted. First, *summary(mod)* is computed and printed to the console so the user can see the principal statistics interactively. The same summary, together with the numeric value of the model’s Akaike Information Criterion (AIC), is redirected to a text file for later reference. The model performances are evaluated on the base of percentage deviance explained and AIC, repectively reported into the corresponding row of the *fm* table in order to make later comparisons quicker. The code produces a pair of diagnostic plots that display the fitted spatial smooth and the temporal effect respectively. They are first drawn to the current graphics device for on-screen inspection and then exported at high resolution to a JPEG file.
+This section captures a complete diagnostic picture of the model immediately after it has been fitted.
+First, *summary(mod)* is computed and printed to the console so the user can see the principal statistics interactively.
+The same summary, together with the numeric value of the model’s Akaike Information Criterion (AIC), is redirected to a text file for later reference.
+The model performances are evaluated on the basis of percentage of explained deviance and AIC, respectively reported into the corresponding row of the *fm* table in order to make later comparisons quicker.
+The code produces a pair of diagnostic plots that display the fitted spatial smooth and the temporal effect respectively.
+They are first drawn to the current graphics device for on-screen inspection and then exported at high resolution to a JPEG file.
 
 ```{r}
   # predictions + maps plot
@@ -378,7 +383,6 @@ This section captures a complete diagnostic picture of the model immediately aft
   write.table(grid, file.path(resdir, paste0("Litter_", dname, "_", fm[m, 2], "_", fm[m, 3], ".csv")), sep = ";", row.names = FALSE)
     
 ```
-
 
 ## Uncertainty estimation
 
@@ -465,7 +469,7 @@ From that distribution the script stores the point estimate, a 95 % confidence i
 
 The code constructs a time-series figure that displays the model’s annual abundance index together with its uncertainty.
 It takes the bootstrap table *ts*, plots each yearly mean as a blue point joined by a blue line, and draws a semi-transparent ribbon spanning the 95 % confidence limits.
-All survey years are shown on the x-axis. 
+All survey years are shown on the x-axis.
 After printing the plot to the screen, the script saves it twice: a high-resolution JPEG for reports and an .rds file that stores the ggplot object for later editing without having to rerun the analysis.
 
 ```{r}
@@ -500,11 +504,12 @@ After printing the plot to the screen, the script saves it twice: a high-resolut
 
 Model 2 and 3 follow the same procedure showed for model 1.
 
-
 <!-- # Analysis on Model 2 -->
 
 <!-- The workflow shown for Model 1 is executed again—line for line for Model 2 (spatial smooth + categorical year) and Model 3 (spatial smooth + linear trend). -->
+
 <!-- Each model is fitted with the correct family, its object and summary are saved, diagnostic splines are plotted, grid-level predictions and three-year maps are saved out, bootstrap time-series indices are generated, and the same JPEG/RDS files are exported. -->
+
 <!-- At each pass the master tables fm and ts_tab are updated so that, once all three loops finish, the user have a complete and directly comparable set of outputs for every candidate model. -->
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide', , fig.show='hide'}
@@ -783,6 +788,7 @@ if (fm[m, "dev.expl"] > 0) {
 <!-- # Analysis on Model 3 -->
 
 <!-- The workflow shown for Model 1 and 2 is executed again—line for line for Model 3 (spatial smooth + linear trend). -->
+
 <!-- At each step the master tables *fm* and *ts_tab* are updated so that, once all three loops finish, the user have a complete and directly comparable set of outputs for every candidate model. -->
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide', , fig.show='hide'}
@@ -1059,7 +1065,14 @@ if (fm[m, "dev.expl"] > 0) {
 
 # Merging plots and results
 
-At the very end of the script results are combined. The bootstrap table *ts_tab*, which now holds the annual indices and confidence limits for all three candidate models, is reshaped into a long format so that the three trajectories are reported on the same column. *ggplot* is then called to build a comparative time-series figure. Each model’s curve is shown as points and lines, coloured black for Model 1, green for Model 2 and blue for Model 3. If Model 1 produced confidence limits, its ribbon is added in semi-transparent grey beneath the three lines to give a visual gauge of uncertainty. After rendering to the screen, the plot is exported in two forms: a high-resolution JPEG for static reporting and an RDS object that stores the ggplot object for future editing. Finally, two comma-separated files are written to the results directory. The first (e.g. *Results_summary_n_km2_SUP.csv*) stores the fm table, which summarises deviance explained and AIC for each model; the second (*Time_series_n_km2_SUP.csv*) contains the complete bootstrap table *ts_tab.* These text files give a concise record of model performance and yearly indices that can be inspected or imported into other software without opening R.
+At the very end of the script results are combined.
+The bootstrap table *ts_tab*, which now holds the annual indices and confidence limits for all three candidate models, is reshaped into a long format so that the three trajectories are reported on the same column.
+*ggplot* is then called to build a comparative time-series figure.
+Each model’s curve is shown as points and lines, coloured black for Model 1, green for Model 2 and blue for Model 3.
+If Model 1 produced confidence limits, its ribbon is added in semi-transparent grey beneath the three lines to give a visual gauge of uncertainty.
+After rendering to the screen, the plot is exported in two forms: a high-resolution JPEG for static reporting and an RDS object that stores the ggplot object for future editing.
+Finally, two comma-separated files are written to the results directory.
+The first (e.g. *Results_summary_n_km2_SUP.csv*) stores the fm table, which summarises deviance explained and AIC for each model; the second (*Time_series_n_km2_SUP.csv*) contains the complete bootstrap table *ts_tab.* These text files give a concise record of model performance and yearly indices that can be inspected or imported into other software without opening R.
 
 ```{r}
 # plot time series of the three models together
@@ -1123,10 +1136,10 @@ write.table(ts_tab, file.path(resdir, paste0("_Time_series_",response,"_",datase
 This chunk summarizes the model’s spatial predictions into a single map that illustrates how litter density is currently distributed.
 It first identifies the last three survey years and extracts from the expanded grid only the rows that belong to those years.
 Grouping by grid cell, it averages the predicted values across the three slices, yielding one mean estimate per cell (mean).
-Coastlines are added with rnaturalearth so that land–sea boundaries are clear.
+Coastlines are added with *rnaturalearth* so that land–sea boundaries are clear.
 The map itself is drawn with ggplot2: each grid cell is a tile coloured by its mean predicted density on a Viridis scale.
 Customised font sizes ensure that labels remain legible in the exported figure.
-Finally, the graphic is printed to the R graphics device for immediate inspection and saved twice—once as a high-resolution JPEG for reports and once as a serialised ggplot object (.rds) in case the user wants to re-open or modify the map later without re-running the entire script.
+Finally, the graphic is printed to the R graphics device for immediate inspection and saved twice: once as a high-resolution JPEG for reports and once as a serialised ggplot object (.rds) in case the user wants to re-open or modify the map later without re-running the entire script.
 
 ```{r message=FALSE, warning=FALSE}
   # map of average model estimations for the latest three years
