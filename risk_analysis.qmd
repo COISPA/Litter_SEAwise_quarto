@@ -70,7 +70,7 @@ SEAwise </a>
 
 # Overview
 
-In this analysis, the spatial distribution of the FR litter is used as a proxy for hazard risk of entanglement, representing the magnitude of potential pressures on the fish species and habitat, while the overlap of FR litter and the distribution of key species (e.g. demersal fish) is used as a proxy of exposure. The assessment of the risk linked to the FR litter is based on the assumption that the proportion of lost gears or lost elements of the fishing gears is proportional to the effort in the study area, that can be useful when clear relationships between the two could not be detected (Spedicato et al., 2023; Doi: 10.11583/DTU.23284649).
+In this analysis, the spatial distribution of the FR litter is used as a proxy for hazard risk of entanglement, representing the magnitude of potential pressures on the fish species and habitat, while the overlap of FR litter and the distribution of key species (e.g. demersal fish) is used as a proxy of exposure (Rindorf et al., 2025; https://doi.org/10.11583/DTU.29235029). The assessment of the risk linked to the FR litter is based on the assumption that the proportion of lost gears or lost elements of the fishing gears is proportional to the effort in the study area, that can be useful when clear relationships between the two could not be detected (Spedicato et al., 2023; https://doi.org/10.11583/DTU.23284649).
 
 ![](pics/Figure3.jpg)
 
