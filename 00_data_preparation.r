@@ -5,7 +5,7 @@ library(dplyr)
 
 # set time series extension
 years <- c(2013:2024)
-wd <- "D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\SEAwise\\_____ARTICOLO_LITTER\\___Analysis_2025___\\Litter_SEAwise_quarto"
+wd <- "D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\SEAwise\\_____ARTICOLO_LITTER\\___Analysis_2025___\\litter"
 setwd(wd)
 # set results directory
 resdir <- file.path(wd,"input")
